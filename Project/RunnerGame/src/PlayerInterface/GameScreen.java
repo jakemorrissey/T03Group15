@@ -1,4 +1,4 @@
-package PlayerInterface;
+package playerInterface;
 
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -7,6 +7,7 @@ public class GameScreen extends JPanel implements Runnable {
 
 	int i = 0;
 	Thread thread;
+	int z = 500;
 	
 	public GameScreen() {
 		thread = new Thread(this);
@@ -19,11 +20,16 @@ public class GameScreen extends JPanel implements Runnable {
 	public void run() {
 		while(true) {
 			System.out.println(i ++);
+			if (z >=150){
+				z --;}
 			try {
-				Thread.sleep(500);
+				Thread.sleep(z);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				e.printStackTrace();	
 			}
 		}
 	}
+	
+	
+	
 }
