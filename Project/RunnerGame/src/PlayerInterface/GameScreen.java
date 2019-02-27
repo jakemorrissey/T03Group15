@@ -1,4 +1,4 @@
-package playerInterface;
+package PlayerInterface;
 
 import java.awt.Color;
 import javax.swing.JPanel;
