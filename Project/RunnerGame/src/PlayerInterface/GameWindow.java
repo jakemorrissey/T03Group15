@@ -1,22 +1,14 @@
-package PlayerInterface;
+
 
 import javax.swing.JFrame;
 import java.awt.Graphics;
 
 public class GameWindow extends JFrame {
 	
+	//Variables
 	private GameScreen gameScreen;
 	
-	public static void main(String[] args) {
-		GameWindow gw = new GameWindow();
-		gw.setVisible(true);
-		gw.startGame();
-	}
-	
-	public void startGame() {
-		gameScreen.startGame();
-	}
-	
+	//Constructors
 	public GameWindow() {
 		super("Java Runner Game");
 		setSize(800, 200);
@@ -24,6 +16,21 @@ public class GameWindow extends JFrame {
 		gameScreen = new GameScreen();
 		add(gameScreen);
 	}
+	
+	//Methods
+	public void startGame() {
+		gameScreen.startGame();
+	}
+	
+	public static void main(String[] args) {
+		GameWindow gw = new GameWindow();
+		gw.setVisible(true);
+		gw.startGame();
+	}
+	
+	
+	
+	
 	
 	
 }
