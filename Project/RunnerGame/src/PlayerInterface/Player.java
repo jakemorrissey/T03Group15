@@ -1,10 +1,10 @@
+
 /*Trex - 40 pixels wide 
  *      43 pixels tall 
  *      
  *      Its jump must be > 46 pixels (height of single cactus)
  */
 
-import java.util.ArrayList;
 
 public class Player {
 	
@@ -12,27 +12,31 @@ public class Player {
 	private int plY=137;  // starting y-coordinate for image (top row of pixels)
 	private int plWidth=40;
 	private int plHeight=43;
-	private Obstacles burrier;
+	
 	// y range of canvas - 200 pixels
 	// floor starts at 180 pixels
 	// 180 (floor) - height of trex (43) = 137 Y - starting coordinate
-		
-	public boolean trackIntersection() {
-		
-	boolean collided = false;	
-		
-	int leftmost = burrier.getx();
-	int rightmost = leftmost + burrier.getWidth(); // rightmost pixel
 	
-	while (rightmost>=0) {
-		rightmost--;
-		
-		
+	
+	public int gety() {
+		return this.plY;
 	}
-	return collided;
+	public int getx() {
+		return this.plX;
 	}
+
+	public int getWidth() {
+		return this.plWidth;
+	}
+
+	public int getHeight() {
+		return this.plHeight;
+	}
+
+
+	}
+		
+
 	
 // Suppose pressing the jump button lifts avatar by 46 pixels.	
 // Suppose the floor background horizon line is set around 180 (y-axis) out of 200.
-	
-}
