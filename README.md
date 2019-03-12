@@ -5,9 +5,12 @@ dialing up the speed at which obstacles come.
 
 GETTING STARTED 
 All files required to initiate the game are found at: https://github.com/jakemorrissey/T03Group15 
-The 3 classes to be downloaded for the GUI setup are "GameDialog", "LevelData" and "Main"
+The 3 classes to be downloaded for the GUI setup are "GameDialog", "LevelData" and "Main".
 Ascertain that javafx is setup in your machine.
 
-Members: Jake M, Robin S., Matt L., Carlos V.
+BUILT WITH
+The game was developed using the Eclipse IDE along with e(fx)clipse 3.4.1 which can be found on 
+Eclipse's Marketplace
 
-DEMO 1: Most updated version found under: project -> runnergame -> src -> carlos-branch
+Authors: Jake M, Robin S., Matt L., Carlos V.
+Acknowledgments
