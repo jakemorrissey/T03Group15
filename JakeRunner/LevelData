@@ -1,5 +1,7 @@
 package mainPackage;
 
+// Code adapted with inspiration from GitHub user AlmasB: 
+// https://github.com/AlmasB/FXTutorials/tree/master/src/com/almasb/tutorial14
 public class LevelData {
 
     public static final String[] LEVEL1 = new String[] {
