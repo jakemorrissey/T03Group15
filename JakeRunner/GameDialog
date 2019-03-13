@@ -9,6 +9,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+// Code adapted with inspiration from GitHub user AlmasB: 
+// https://github.com/AlmasB/FXTutorials/tree/master/src/com/almasb/tutorial14
+
 public class GameDialog extends Stage{
 
     private Text textGameOver = new Text();
