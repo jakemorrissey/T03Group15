@@ -18,6 +18,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+// Code adapted with inspiration from GitHub user AlmasB: 
+// https://github.com/AlmasB/FXTutorials/tree/master/src/com/almasb/tutorial14 
+// https://www.youtube.com/watch?v=fnsBoamSscQ&t=1s
+
 public class Main extends Application {
 
     private HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
