@@ -9,6 +9,7 @@ Getting Started:
 *The Graphical User Interface implemented is JavaFx which will be required to run this game. The game was developed using the Eclipse IDE along with e(fx)clipse 3.4.1 which can be found on Eclipse's Marketplace.
 
 *TO DOWNLOAD AND PLAY THE GAME: 
+
 -make sure Java1.8, eclipse, and JavaFX is installed. Create a new Java Project (name can be whatever you like)
 
 -download all files from the folder RunnerFinal/src/... available through the main page of this repository.
