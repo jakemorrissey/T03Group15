@@ -10,7 +10,9 @@ Getting Started:
 
 *TO DOWNLOAD AND PLAY THE GAME: 
 -make sure Java1.8, eclipse, and JavaFX is installed. Create a new Java Project (name can be whatever you like)
+
 -download all files from the folder RunnerFinal/src/... available through the main page of this repository.
+
 -set up your Java Project as follows (hyphens (-) indicate package. **NAMES MUST BE EXACT**, asterisks (*) indicate files (these will be imported from the folder downloaded from this github repository)) :
 
 **IF THERE IS ANY CONFUSION, REFER TO THE SETUP OF FOLDERS(PACKAGES) AND FILES OF THE SOURCE FOLDER FOUND IN THIS GITHUB**
