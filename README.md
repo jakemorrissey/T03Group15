@@ -13,7 +13,8 @@ Getting Started:
 **IF THERE IS ANY CONFUSION, REFER TO THE SETUP OF FOLDERS(PACKAGES) AND FILES OF THE SOURCE FOLDER FOUND IN THIS GITHUB**
 
 
-  src/
+
+  -src/
   
     -application
     
