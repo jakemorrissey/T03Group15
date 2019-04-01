@@ -10,21 +10,25 @@ Getting Started:
 
 *TO DOWNLOAD AND PLAY THE GAME: 
 
--make sure Java1.8, eclipse, and JavaFX is installed. Create a new Java Project (name can be whatever you like)
+1) make sure Java IDE 1.8, eclipse, and JavaFX is installed. 
 
--download all files from the folder RunnerFinal/src/... available through the main page of this repository.
+2) From inside eclipse, right click on the package explorer to create a new Java project. 
+  
+ (Right click in package explorer -> New -> new Java Project (name can be whatever you like))
 
--set up your Java Project as follows (hyphens (-) indicate package. **NAMES MUST BE EXACT**, asterisks (*) indicate files (these will be imported from the folder downloaded from this github repository)) :
+2) download all files from the folder RunnerFinal/src/... available through the main page of this repository.
+
+3) Set up your Java Project by importing the project folder from this gitHub. Create three packages in the Java Project (right click on the project name in package explorer -> new -> package) named "application", "main", and "view". **PACKAGE NAMES ARE CASE SENSITIVE**. Inside the "view" package, create another package called "resources". Inside the new "resources" package, create two additional packages named "characters" and "enemies". Create an additional "resources" package inside the "model" package"
+
+4) Import the correct files into each package as shown below.
 
 **IF THERE IS ANY CONFUSION, REFER TO THE SETUP OF FOLDERS(PACKAGES) AND FILES OF THE SOURCE FOLDER FOUND IN THIS GITHUB**
 
-
-
-  -src/
   
     -application
     
       *Main.java
+      
       
     -model
     
