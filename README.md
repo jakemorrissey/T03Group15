@@ -101,6 +101,8 @@ Authors: Jake M, Robin S., Matt L., Carlos V.
 
 Resources:
 -youtube.com/javacraving - (JavaFX game Tutorial [SpaceRunner] [Lessons 0-14] 
+
 -github.com/almasB
+
 -https://stackoverflow.com/questions/46570494/javafx-changing-the-image-of-an-imageview-using-timeline-doesnt-work
 
