@@ -99,7 +99,8 @@ To install JavaFX, refer to this helpful tutorial via youtube.com/ProgrammingKno
 
 Authors: Jake M, Robin S., Matt L., Carlos V.
 
-Resources:
+References and Credits:
+
 -https://youtube.com/javacraving - (JavaFX game Tutorial [SpaceRunner] [Lessons 0-14] 
 
 -https://github.com/almasB
