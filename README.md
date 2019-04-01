@@ -10,7 +10,9 @@ Getting Started:
 
 *TO DOWNLOAD AND PLAY THE GAME: 
 
-1) make sure Java IDE 1.8, eclipse, and JavaFX is installed. 
+1) make sure Java IDE 1.8, eclipse, and JavaFX is installed.
+
+To install JavaFX, refer to this helpful tutorial via youtube.com/ProgrammingKnowledge: https://www.youtube.com/watch?v=ejx3VxuIc8w
 
 2) From inside eclipse, right click on the package explorer to create a new Java project. 
   
