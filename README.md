@@ -16,7 +16,7 @@ To install JavaFX, refer to this helpful tutorial via youtube.com/ProgrammingKno
 
 2) From inside eclipse, right click on the package explorer to create a new Java project. 
   
- (Right click in package explorer -> New -> new Java Project (name can be whatever you like))
+ (Right click in package explorer -> New -> Java Project (name can be whatever you like))
 
 2) download all files from the folder RunnerFinal/src/... available through the main page of this repository.
 
