@@ -231,7 +231,7 @@ public class ViewManager {
 		helpLabel.setLayoutX(110);
 		helpLabel.setLayoutY(25);
 		
-		Label howToPlay = new Label("Press ↑ to jump over obstacles.");
+		Label howToPlay = new Label("Press W to jump over obstacles.");
 		Label howToPlay2 = new Label("Run for as long as possible to");
 		Label howToPlay3 = new Label("increase your score, and set new");
 		Label howToPlay4 = new Label("records");

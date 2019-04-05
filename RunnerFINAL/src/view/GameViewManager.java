@@ -123,7 +123,6 @@ public class GameViewManager extends ViewManager {
 	/** The sprites. */
 	List<Image> sprites = new ArrayList<>();
 	
-	protected String userId;
 	
 	/** The Constant adventurer1. */
 	protected final static String adventurer1 = "view/resources/characters/adventurer_walk1.png";
@@ -288,7 +287,7 @@ public class GameViewManager extends ViewManager {
      * Update.
      */
     protected void update() {
-        if (isPressed(KeyCode.UP)) {
+        if (isPressed(KeyCode.W)) {
             movePlayerUp();
         }
 
@@ -364,13 +363,6 @@ public class GameViewManager extends ViewManager {
 		RunnerButton menuButton = new RunnerButton("MENU");
 		menuButton.setLayoutX(200);
 		menuButton.setLayoutY(300);
-		/**
-		usrNameTxt = new TextField();
-        usrNameTxt.setPromptText("Enter Your Name Here");
-        usrNameTxt.setLayoutX(145);
-        usrNameTxt.setLayoutY(220);
-        usrNameTxt.setPrefWidth(200);
-        usrNameTxt.setPrefHeight(60);*/
 		
 		InfoLabel gameOverLabel = new InfoLabel("GAME OVER");
 		gameOverLabel.setLayoutX(100);
@@ -385,16 +377,12 @@ public class GameViewManager extends ViewManager {
 
 			@Override
 			public void handle(ActionEvent event) {
-             /** if (usrNameTxt.getLength() > 0) {
-                    userId = usrNameTxt.getText();
-                }
-                 
                 try {
-                    writeHighScores(userId, score);
+                    writeHighScores(score);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                }*/
+                }
 				menuStage.show();
 				gameStage.close();
 
@@ -461,6 +449,7 @@ public class GameViewManager extends ViewManager {
 	/**
 	 * Creates the main menu button.
 	 */
+	
 	public void createMainMenuButton(){
 		RunnerButton mainMenuButton = new RunnerButton("MENU");
 		mainMenuButton.setLayoutX(900);
@@ -482,16 +471,22 @@ public class GameViewManager extends ViewManager {
 		
 	}
 	
-    private void writeHighScores(String userId, int score) throws IOException {
+	private void writeHighScores(int score) throws IOException {
+    	try{
+    		
+    	
         File scoreFolder = new File("Scores");
         File scoreTxt = new File (scoreFolder + "/" + "Score.txt");
-        PrintWriter writer = new PrintWriter(new FileOutputStream("/Users/jakemorrissey/Documents/CPSC219/RunnerFINAL/src/Scores/Score.txt", true));
-        if (!(userId == "" || userId == null)) {
-            writer.append(score + "\n");
-        }else {
+        PrintWriter writer = new PrintWriter(new FileOutputStream("/src/Scores/Score.txt", true));
+        if (score > 0) {
             writer.append(score + "\n");
         }
-        writer.close();  
+        writer.close(); 
+    } catch (Exception e){
+    	e.printStackTrace();
+    	
+    }
+    
      }
 	
 
