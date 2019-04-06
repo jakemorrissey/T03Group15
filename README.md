@@ -18,9 +18,9 @@ To install JavaFX, refer to this helpful tutorial via youtube.com/ProgrammingKno
   
  (Right click in package explorer -> New -> Java Project (name can be whatever you like))
 
-2) download all files from the folder RunnerFinal/src/... available through the main page of this repository.
+2) Download all files from the folder RunnerFinal/src/... available through the main page of this repository.
 
-3) Set up your Java Project by importing the project folder from this gitHub. Create three packages in the Java Project (right click on the project name in package explorer -> new -> package) named "application", "main", and "view". **PACKAGE NAMES ARE CASE SENSITIVE**. Inside the "view" package, create another package called "resources". Inside the new "resources" package, create two additional packages named "characters" and "enemies". Create an additional "resources" package inside the "model" package"
+3) Set up your Java Project by importing the project folder from this GitHub. Create three packages in the Java Project (right click on the project name in package explorer -> new -> package) named "application", "main", and "view". **PACKAGE NAMES ARE CASE SENSITIVE**. Inside the "view" package, create another package called "resources". Inside the new "resources" package, create two additional packages named "characters" and "enemies". Create an additional "resources" package inside the "model" package"
 
 4) Import the correct files into each package as shown below.
 
