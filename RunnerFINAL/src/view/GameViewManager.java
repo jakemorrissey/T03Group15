@@ -434,7 +434,11 @@ public class GameViewManager extends ViewManager {
    private void checkCollision(){
 	   
     	if ((character.getBoundsInParent().intersects(slime1.getBoundsInParent())) || character.getBoundsInParent().intersects(slime2.getBoundsInParent())) {
-    			clip.stop();
+    		try{
+    			clip.stop();	
+    		} catch (Exception e){
+    			
+    		}	
     			gameTimer.stop();
     			timeLine.pause();
     			createGameOverScene();
