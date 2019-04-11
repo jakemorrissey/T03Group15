@@ -287,6 +287,10 @@ public class GameViewManager extends ViewManager {
  		   Clip clip = AudioSystem.getClip();
  		   clip.open(AudioSystem.getAudioInputStream(file));
  		   clip.start();
+		} catch (Exception e) {
+ 		   System.err.println(e.getMessage());
+ 		  }
+ 		 }
 	
 	
 	public void playJump() {  // jumping effect sound
