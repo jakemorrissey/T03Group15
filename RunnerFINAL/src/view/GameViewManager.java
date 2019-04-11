@@ -285,6 +285,12 @@ public class GameViewManager extends ViewManager {
 		try {
 		   File file = new File("JumpSoundEffect.wav");
 		   Clip clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(file));
+		   clip.start();
+		   
+		  } catch (Exception e) {
+		   System.err.println(e.getMessage());
+		  }
 	}
 	
 	
