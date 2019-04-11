@@ -1,524 +1,768 @@
 package view;
+import sun.audio.*;
+import java.io.*;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-import javafx.scene.text.Font;
-import javafx.scene.input.MouseEvent;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.effect.DropShadow;
-import java.util.List;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.CHARACTER;
-import model.CharacterPicker;
 import model.InfoLabel;
 import model.RunnerButton;
 import model.RunnerSubScene;
-import view.GameViewManager;
-
+import model.SmallInfoLabel;
 // TODO: Auto-generated Javadoc
+
 /**
- * The Class ViewManager.
+ * The Class GameViewManager.
  */
-public class ViewManager {
+public class GameViewManager extends ViewManager {
 	
-	/** The Constant HEIGHT. */
-	private static final int HEIGHT = 760;
+	/** The keys. */
+	protected HashMap<KeyCode, Boolean> keys = new HashMap<KeyCode, Boolean>();
 	
-	/** The Constant WIDTH. */
-	private static final int WIDTH = 1200;
+	/** The game pane. */
+	protected AnchorPane gamePane;
 	
-	/** The main pane. */
-	private AnchorPane mainPane;
+	/** The game scene. */
+	protected Scene gameScene;
 	
-	/** The main scene. */
-	private Scene mainScene;
+	/** The game stage. */
+	protected Stage gameStage;
 	
-	/** The main stage. */
-	private Stage mainStage;
+	/** The menu stage. */
+	protected Stage menuStage;
 	
-	/** The line int. */
-	public int lineInt = 0;
+	/** The ground pane 1. */
+	protected BorderPane groundPane1;
+	
+	/** The ground pane 2. */
+	protected BorderPane groundPane2;
+	
+	/** The ground pane 3. */
+	protected BorderPane groundPane3;
+	
+	/** The ground pane 4. */
+	protected BorderPane groundPane4;
+	
+	/** The ground pane 5. */
+	protected BorderPane groundPane5;
+	
+	/** The ground pane 6. */
+	protected BorderPane groundPane6;
+    
+    /** The time line. */
+    Timeline timeLine = new Timeline();
+    
+    protected TextField usrNameTxt;
+    
+    /** The game over sub scene. */
+    private RunnerSubScene gameOverSubScene;
+	
+	/** The grid pane 1. */
+	protected GridPane gridPane1;
+	
+	/** The grid pane 2. */
+	protected GridPane gridPane2;
+	
+	/** The grid pane 3. */
+	protected GridPane gridPane3;
+	
+	/** The character. */
+	protected ImageView character;
 	
 	
-	/** The Constant MENU_BUTTONS_START_X. */
-	private final static int MENU_BUTTONS_START_X = 100;
+	/** The platforms. */
+	protected ArrayList<Node> platforms = new ArrayList<Node>();
 	
-	/** The Constant MENU_BUTTONS_START_Y. */
-	private final static int MENU_BUTTONS_START_Y = 150;	
+	/** The Constant BACKGROUND_IMAGE. */
+	protected final static String BACKGROUND_IMAGE = "view/resources/background.png";
 	
-	/** The help sub scene. */
-	private RunnerSubScene helpSubScene;
+	/** The Constant GROUND_IMAGE. */
+	protected final static String GROUND_IMAGE = "view/resources/ground.png";
 	
-	/** The credits sub scene. */
-	private RunnerSubScene creditsSubScene;
+	/** The Constant GAME_WIDTH. */
+	protected static final int GAME_WIDTH = 1200;
 	
-	/** The scores sub scene. */
-	private RunnerSubScene scoresSubScene;
+	/** The Constant GAME_HEIGHT. */
+	protected static final int GAME_HEIGHT = 550;
 	
-	/** The character chooser scene. */
-	private RunnerSubScene characterChooserScene;
+	/** The move speed. */
+	protected double moveSpeed = 9;
 	
-	/** The scene to hide. */
-	private RunnerSubScene sceneToHide;
+	/** The images. */
+	List<Image> images = new ArrayList<>();
 	
-	/** The score 1. */
-	int score1;
+	/** The chosen character url. */
+	protected String chosenCharacterUrl;
 	
-	/** The score 2. */
-	int score2;
+	/** The player view. */
+	ImageView playerView = new ImageView();
 	
-	/** The score 3. */
-	int score3;
+	/** The sprites. */
+	List<Image> sprites = new ArrayList<>();
 	
-	/** The score 4. */
-	int score4;
+	protected String userId;
 	
-	/** The score 5. */
-	int score5;
-			
-	/** The menu buttons. */
-	List<RunnerButton> menuButtons;
+	/** The Constant adventurer1. */
+	protected final static String adventurer1 = "view/resources/characters/adventurer_walk1.png";
 	
-	/** The character list. */
-	List<CharacterPicker> characterList;
+	/** The Constant adventurer2. */
+	protected final static String adventurer2 = "view/resources/characters/adventurer_walk2.png";
 	
-	/** The chosen character. */
-	private CHARACTER chosenCharacter;
+	/** The Constant zombie1. */
+	protected final static String zombie1 = "view/resources/characters/zombie_walk1.png";
+	
+	/** The Constant zombie2. */
+	protected final static String zombie2 = "view/resources/characters/zombie_walk2.png";
+	
+	/** The Constant female1. */
+	protected final static String female1 = "view/resources/characters/female_walk1.png";
+	
+	/** The Constant female2. */
+	protected final static String female2 = "view/resources/characters/female_walk2.png";
+	
+	/** The Constant soldier1. */
+	protected final static String soldier1 = "view/resources/characters/soldier_walk1.png";
+	
+	/** The Constant soldier2. */
+	protected final static String soldier2 = "view/resources/characters/soldier_walk2.png";
+	
+	/** The score. */
+	public int score = 0;
+	
+	/** The main menu button. */
+	protected RunnerButton mainMenuButton;
+	
+	
+	/** The slime 1. */
+	protected ImageView slime1;
+	
+	/** The slime 2. */
+	protected ImageView slime2;
+	
+	/** The player sprites. */
+	protected Image[] playerSprites;
+	
+	/** The Constant SLIME_IMAGE. */
+	protected final static String SLIME_IMAGE = "view/resources/enemies/slime1.png";
+	
+	/** The Constant SLIME2_IMAGE. */
+	protected final static String SLIME2_IMAGE = "view/resources/enemies/slime.png";
+	
+	/** The can jump. */
+	protected boolean canJump = true;
+	
+	/** The game timer. */
+	protected AnimationTimer gameTimer;
+    
+    /** The player velocity. */
+    protected Point2D playerVelocity = new Point2D(0, 0);
+    
+    /** The points label. */
+    protected SmallInfoLabel pointsLabel;
+    
+    /** The final score label. */
+    protected SmallInfoLabel finalScoreLabel;
+    
+    /** The high score label. */
+    protected SmallInfoLabel highScoreLabel;
+
+	/** the high score. */
+    private int highScore;
+    File file = new File("MarioPiano.wav");
+    private Clip clip;
+   
 	
 	/**
-	 * Instantiates a new view manager.
+	 * Instantiates a new game view manager.
 	 */
-	public ViewManager(){
-		menuButtons = new ArrayList<>();
-		mainPane = new AnchorPane();
-		mainScene = new Scene(mainPane,WIDTH,HEIGHT);
-		mainStage = new Stage();
-		mainStage.setResizable(false);
-		mainStage.setScene(mainScene);
-		createSubScenes();
-		createButtons();
-		createBackground();
-		createLogo();	
+	public GameViewManager(){
+		initializeStage();
+	}
+	
+	/**
+	 * Initialize stage.
+	 */
+	public void initializeStage(){
+		gamePane = new AnchorPane();
+		gameScene = new Scene(gamePane, GAME_WIDTH, GAME_HEIGHT);
+        gameScene.setOnKeyPressed(event -> keys.put(event.getCode(), true));
+        gameScene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
+		gameStage = new Stage();
+		gameStage.setScene(gameScene);
+		
 		
 	}
 	
 	/**
-	 * Show sub scene.
+	 * Creates the new game.
 	 *
-	 * @param subScene the sub scene
+	 * @param menuStage the menu stage
+	 * @param chosenCharacter the chosen character
 	 */
-	public void showSubScene(RunnerSubScene subScene){
-		if(sceneToHide != null){
-			sceneToHide.moveSubScene();
-		}
-		subScene.moveSubScene();
-		sceneToHide = subScene;
+	public void createNewGame(Stage menuStage, CHARACTER chosenCharacter){
+		this.menuStage = menuStage;
+		this.menuStage.hide();
+		createBackground();
+		createCharacter(chosenCharacter);
+		animateCorrectSprite();
+		createScoreLabel();
+		createGameElements();
+        File scoreFolder = new File("Scores");
+        File scoreTxt = new File (scoreFolder + "/" + "Score.txt");
+		createPlatform();
+		createGameLoop();
+		createMainMenuButton();
+		gameStage.setResizable(false);
+		gameStage.show();
+		backgroundMusic();
+		
+		
+		
 	}
 	
-
-	
 	/**
-	 * Creates the high score list.
-	 
-	private void createHighScoreList(){
-		BufferedReader b;
+	 * Creates the character.
+	 *
+	 * @param chosenCharacter the chosen character
+	 */
+	protected void createCharacter(CHARACTER chosenCharacter){
+		character = new ImageView(chosenCharacter.getUrl());
+		character.setLayoutY(((GAME_HEIGHT /4) * 3)-12);
+		character.setLayoutX(GAME_WIDTH - 1020);
+		gamePane.getChildren().add(character);
+		chosenCharacterUrl = chosenCharacter.getUrl();
+	}
+	
+    /**
+     * Move player up.
+     */
+    protected void movePlayerUp() {
+        if (canJump) {
+            playerVelocity = playerVelocity.add(0, -30);
+            canJump = false;
+        }
+    }
+	
+    
+    
+    public void backgroundMusic() {
+    	try {
+ 		   
+ 		   this.clip = AudioSystem.getClip();
+ 		   this.clip.open(AudioSystem.getAudioInputStream(this.file));
+ 		   this.clip.start();
+ 		   
+ 		  } catch (Exception e) {
+ 		   System.err.println(e.getMessage());
+ 		  }
+ 		 }
+    
+    
+	/**
+	 * Creates the game loop.
+	 */
+	protected void createGameLoop(){
+	
+		gameTimer = new AnimationTimer() {
+			
+			@Override
+			
+			public void handle(long now) {
+				moveBackground();
+				moveGround();
+				moveGameElements();
+				checkCollision();
+				checkIfObstaclesPast();
+		        update();
+		        
+				
+			}
 
-        try {
+		};
+		
+		gameTimer.start();
+	}
+	
+	
 
-
-            b = new BufferedReader(new FileReader("/Users/jakemorrissey/Documents/CPSC219/RunnerFINAL/src/Scores/Score.txt"));
-            
-            String line = b.readLine();
-
-            while (line != null) {
-               lineInt = Integer.parseInt(line);
-               if (lineInt > score1){
-               score1 = lineInt;
-               b.readLine();
-               return;
-               }
-            }                    
-            
-        return;}
-         catch (IOException e) {
-            e.printStackTrace();
+	public void playJump() {  // jumping effect sound
+		  try {
+		   File file = new File("JumpSoundEffect.wav");
+		   Clip clip = AudioSystem.getClip();
+		   clip.open(AudioSystem.getAudioInputStream(file));
+		   clip.start();
+		   
+		  } catch (Exception e) {
+		   System.err.println(e.getMessage());
+		  }
+		 }
+	
+	
+    /**
+     * Update.
+     */
+    protected void update() {
+        if (isPressed(KeyCode.UP)) {
+        	playJump();
+            movePlayerUp();
         }
 
-    
-	}
-	
-	
-	
-	
-	/**
-	 * Creates the sub scenes.
-	 */
-	private void createSubScenes(){
-		
-		createCreditsSubScene();
-		createHelpSubScene();
-		scoresHelpSubScene();
-		createCharacterChooserSubScene();
-			
-		}
-	
-	/**
-	 * Scores help sub scene.
-	 */
-	private void scoresHelpSubScene(){
-		scoresSubScene = new RunnerSubScene();
-		mainPane.getChildren().add(scoresSubScene);
-		
-		InfoLabel scoresLabel = new InfoLabel("SCORES");
-		scoresLabel.setLayoutX(110);
-		scoresLabel.setLayoutY(25);
-		
-		Label Score1 = new Label("High Scores: ");
-		Label Score2 = new Label("1: " + score1);
-		Label Score3 = new Label("2: " + score2);
-		Label Score4 = new Label("3: "+ score3);
-		Label Score5 = new Label("4: "+ score4);
-		
-		Score1.setFont(new Font("Verdana", 22));
-		Score2.setFont(new Font("Verdana", 22));
-		Score3.setFont(new Font("Verdana", 22));
-		Score4.setFont(new Font("Verdana", 22));
-		Score5.setFont(new Font("Verdana", 22));
-		
-		Score2.setLayoutX(110);
-		Score2.setLayoutY(160);
-		
-		Score1.setLayoutX(110);
-		Score1.setLayoutY(110);
-		
-		Score3.setLayoutX(110);
-		Score3.setLayoutY(210);
-		
-		Score4.setLayoutX(110);
-		Score4.setLayoutY(260);
-		
-		Score5.setLayoutX(110);
-		Score5.setLayoutY(310);
-		
-		
-		
-		scoresSubScene.getPane().getChildren().addAll(scoresLabel, Score1, Score2, Score3, Score4, Score5);
-		
-	}
-	
-	/**
-	 * Creates the help sub scene.
-	 */
-	private void createHelpSubScene(){
-		helpSubScene = new RunnerSubScene();
-		mainPane.getChildren().add(helpSubScene);
-		
-		InfoLabel helpLabel = new InfoLabel("HELP");
-		helpLabel.setLayoutX(110);
-		helpLabel.setLayoutY(25);
-		
-		Label howToPlay = new Label("Press W to jump over obstacles.");
-		Label howToPlay2 = new Label("Run for as long as possible to");
-		Label howToPlay3 = new Label("increase your score, and set new");
-		Label howToPlay4 = new Label("records");
-		
-		howToPlay.setFont(new Font("Verdana", 22));
-		howToPlay2.setFont(new Font("Verdana", 22));
-		howToPlay3.setFont(new Font("Verdana", 22));
-		howToPlay4.setFont(new Font("Verdana", 22));
-		
-		howToPlay2.setLayoutX(110);
-		howToPlay2.setLayoutY(160);
-		
-		howToPlay.setLayoutX(110);
-		howToPlay.setLayoutY(110);
-		
-		howToPlay3.setLayoutX(110);
-		howToPlay3.setLayoutY(210);
-		
-		howToPlay4.setLayoutX(110);
-		howToPlay4.setLayoutY(260);
-			
-		helpSubScene.getPane().getChildren().addAll(helpLabel, howToPlay, howToPlay2, howToPlay3, howToPlay4);
-		
-	}
-	
-	/**
-	 * Creates the credits sub scene.
-	 */
-	private void createCreditsSubScene(){
-		creditsSubScene = new RunnerSubScene();
-		mainPane.getChildren().add(creditsSubScene);
-		
-		InfoLabel creditsLabel = new InfoLabel("CREDITS");
-		creditsLabel.setLayoutX(110);
-		creditsLabel.setLayoutY(25);
-		
-		Label credits1 = new Label("Developed by:");
-		Label credits2 = new Label("U of C CPSC 219 Group 15");
-		Label credits3 = new Label("Jake M, Carlos V, Matt L, Robin S");
-		Label credits4 = new Label("Special Thanks to:");
-		Label credits5 = new Label("youtube.com/JavaCraving");
-		
-		credits1.setFont(new Font("Verdana", 22));
-		credits2.setFont(new Font("Verdana", 22));
-		credits3.setFont(new Font("Verdana", 22));
-		credits4.setFont(new Font("Verdana", 22));
-		credits5.setFont(new Font("Verdana", 22));
-		
-		credits1.setLayoutX(110);
-		credits1.setLayoutY(160);
-		
-		credits2.setLayoutX(110);
-		credits2.setLayoutY(110);
-		
-		credits3.setLayoutX(110);
-		credits3.setLayoutY(210);
-		
-		credits4.setLayoutX(110);
-		credits4.setLayoutY(290);
-		
-		credits5.setLayoutX(110);
-		credits5.setLayoutY(340);
-		
-		
-		creditsSubScene.getPane().getChildren().addAll(creditsLabel, credits1, credits2, credits3, credits4, credits5);
-		
-	}
-	
-	/**
-	 * Creates the character chooser sub scene.
-	 */
-	private void createCharacterChooserSubScene(){
-		characterChooserScene = new RunnerSubScene();
-		mainPane.getChildren().add(characterChooserScene);
-		
-		InfoLabel chooseCharacterLabel = new InfoLabel("SELECT A CHARACTER");
-		chooseCharacterLabel.setLayoutX(110);
-		chooseCharacterLabel.setLayoutY(25);
-		characterChooserScene.getPane().getChildren().add(chooseCharacterLabel);
-		characterChooserScene.getPane().getChildren().add(createCharactersToChoose());
-		characterChooserScene.getPane().getChildren().add(createButtonToStart());
-		
-		
-	}
-	
-	/**
-	 * Creates the characters to choose.
-	 *
-	 * @return the h box
-	 */
-	private HBox createCharactersToChoose(){
-		HBox box = new HBox();
-		box.setSpacing(20);
-		characterList = new ArrayList<>();
-		for(CHARACTER character : CHARACTER.values()){
-			CharacterPicker characterToPick = new CharacterPicker(character);
-			characterList.add(characterToPick);
-			box.getChildren().add(characterToPick);
-			characterToPick.setOnMouseClicked(new EventHandler<MouseEvent>(){
-				
-				@Override
-				public void handle(MouseEvent event){
-					for (CharacterPicker character : characterList){
-						character.setCircleIsChosen(false);
-					}
-					characterToPick.setCircleIsChosen(true);
-					chosenCharacter = characterToPick.getCharacter();
-					
-				}
-			});
-		}
-		box.setLayoutX(100);
-		box.setLayoutY(100);
-		return box;
-	}
+        if (playerVelocity.getY() < 10) {
+            playerVelocity = playerVelocity.add(0, 1);
+        }
 
-	/**
-	 * Creates the button to start.
-	 *
-	 * @return the runner button
-	 */
-	private RunnerButton createButtonToStart(){
-		RunnerButton startButton = new RunnerButton("START");
-		startButton.setLayoutX(350);
-		startButton.setLayoutY(300);
+        jumpPlayer((int)playerVelocity.getY());
+
+    }
+    
+   /**
+    * Animate correct sprite.
+    */
+   protected void animateCorrectSprite(){
+    	playerSprites = new Image[2];
+	   
+    	if (chosenCharacterUrl == "view/resources/characters/adventurer_walk1.png"){
+    		
+    		playerSprites[0] = new Image(adventurer1);
+    		playerSprites[1] = new Image(adventurer2);
+    		animatePlayerSprites(playerSprites);
+    		
+    		}	
+    	else if (chosenCharacterUrl == "view/resources/characters/female_walk1.png"){
+    		playerSprites[0] = new Image(female1);
+    		playerSprites[1] = new Image(female2);
+    		animatePlayerSprites(playerSprites);
+    		
+    	}
+    	else if (chosenCharacterUrl == "view/resources/characters/zombie_walk1.png"){
+    		playerSprites[0] = new Image(zombie1);
+    		playerSprites[1] = new Image(zombie2);
+    		animatePlayerSprites(playerSprites);
+    		
+    	}
+    	else if (chosenCharacterUrl == "view/resources/characters/soldier_walk1.png"){
+    		playerSprites[0] = new Image(soldier1);
+    		playerSprites[1] = new Image(soldier2);
+    		animatePlayerSprites(playerSprites);
+    		
+    	}
+    }
+    		
+    /**
+     * Animate player sprites.
+     *
+     * @param images the images
+     */
+    // https://stackoverflow.com/questions/46570494/javafx-changing-the-image-of-an-imageview-using-timeline-doesnt-work		
+    public void animatePlayerSprites(Image[] images) { 
+            character.setImage(images[1]);
+            Collection<KeyFrame> frames = timeLine.getKeyFrames();
+            Duration frameGap = Duration.millis(900/moveSpeed);
+            Duration frameTime = Duration.ZERO ;
+            for (Image img : images) {
+                frameTime = frameTime.add(frameGap);
+                frames.add(new KeyFrame(frameTime, e -> character.setImage(img)));
+            }
+            timeLine.setCycleCount(Timeline.INDEFINITE);
+            timeLine.play();
+        }
+    
+    /**
+     * Creates the game over scene.
+     */
+    private void createGameOverScene(){
+		gameOverSubScene = new RunnerSubScene();		
+		gamePane.getChildren().add(gameOverSubScene);
+		gameOverSubScene.setLayoutY(80);
+		gameOverSubScene.setLayoutX(1140);
+		showSubScene(gameOverSubScene);
+		RunnerButton menuButton = new RunnerButton("MENU");
+		menuButton.setLayoutX(200);
+		menuButton.setLayoutY(300);
+		/**
+		usrNameTxt = new TextField();
+        usrNameTxt.setPromptText("Enter Your Name Here");
+        usrNameTxt.setLayoutX(145);
+        usrNameTxt.setLayoutY(220);
+        usrNameTxt.setPrefWidth(200);
+        usrNameTxt.setPrefHeight(60);*/
 		
-		startButton.setOnAction(new EventHandler<ActionEvent>() {
+		InfoLabel gameOverLabel = new InfoLabel("GAME OVER");
+		gameOverLabel.setLayoutX(100);
+		gameOverLabel.setLayoutY(25);
+		
+		finalScoreLabel = new SmallInfoLabel("SCORE : " + Integer.toString(score));
+		finalScoreLabel.setLayoutX(190);
+		finalScoreLabel.setLayoutY(120);
+		finalScoreLabel.setPrefWidth(700);
+		menuButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				if(chosenCharacter != null){
-					GameViewManager gameManager = new GameViewManager();
-					gameManager.createNewGame(mainStage, chosenCharacter);
-				}
-				
-				
-			}
+             /** if (usrNameTxt.getLength() > 0) {
+                    userId = usrNameTxt.getText();
+                }
+                 
+                try {
+                    writeHighScores(userId, score);
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }*/
+				menuStage.show();
+				gameStage.close();
+
+
+	
+				}	
+		});
+		gameOverSubScene.getPane().getChildren().addAll(menuButton, finalScoreLabel, gameOverLabel);
+    	
+}
+    
+    
+   /**
+    * Check collision.
+    */
+   private void checkCollision(){
+	   
+    	if ((character.getBoundsInParent().intersects(slime1.getBoundsInParent())) || character.getBoundsInParent().intersects(slime2.getBoundsInParent())) {
+    			clip.stop();
+    			gameTimer.stop();
+    			timeLine.pause();
+    			createGameOverScene();
+    		
+    		}
+    }	
+   
+    
+	/**
+	 * Sets the new element position.
+	 *
+	 * @param image the new new element position
+	 */
+	protected void setNewElementPosition(ImageView image){
+		if (image == slime1){
+			image.setLayoutX(GAME_WIDTH+200);
+			image.setLayoutY(((GAME_HEIGHT /4) * 3) + 38);}
+		if (image == slime2){
+			image.setLayoutX(GAME_WIDTH+340);
+			image.setLayoutY(((GAME_HEIGHT /4) * 3) + 79);}
 			
+	}
+		
+	
+	
+	/**
+	 * Creates the score label.
+	 */
+	public void createScoreLabel(){
+		pointsLabel = new SmallInfoLabel("SCORE : " + Integer.toString(score));
+		pointsLabel.setLayoutX(100);
+		pointsLabel.setLayoutY(60);
+		gamePane.getChildren().add(pointsLabel);
+	}
+	
+	/**
+	 * Creates the high score label.
+	 */
+	public void createHighScoreLabel(){ // not working yet
+		pointsLabel = new SmallInfoLabel("HIGH SCORE : " + Integer.toString(highScore));
+		pointsLabel.setLayoutX(100);
+		pointsLabel.setLayoutY(60);
+		gamePane.getChildren().add(pointsLabel);
+	}
+	
+	/**
+	 * Creates the main menu button.
+	 */
+	public void createMainMenuButton(){ // keyboard 
+		RunnerButton mainMenuButton = new RunnerButton("MENU");
+		mainMenuButton.setLayoutX(900);
+		mainMenuButton.setLayoutY(60);
+		
+		mainMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				menuStage.show();
+				gameStage.close();
+
+
+	
+				}	
 		});
 		
-		return startButton;
-				
+		gamePane.getChildren().add(mainMenuButton);
+		
 	}
 	
-	/**
-	 * Gets the main stage.
-	 *
-	 * @return the main stage
-	 */
-	public Stage getMainStage(){
-		return mainStage;
-	}
+    private void writeHighScores(String userId, int score) throws IOException { // try to fix it 
+        File scoreFolder = new File("Scores");
+        File scoreTxt = new File (scoreFolder + "/" + "Score.txt");
+        PrintWriter writer = new PrintWriter(new FileOutputStream("/Users/jakemorrissey/Documents/CPSC219/RunnerFINAL/src/Scores/Score.txt", true));
+        if (!(userId == "" || userId == null)) {
+            writer.append(score + "\n");
+        }else {
+            writer.append(score + "\n");
+        }
+        writer.close();  
+     }
 	
-	/**
-	 * Creates the buttons.
-	 */
-	public void createButtons(){
-		createStartButton();
-		createScoresButton();
-		createHelpButton();
-		createCreditsButton();
-		createExitButton();
-	
-	}
 
 	/**
-	 * Adds the menu button.
-	 *
-	 * @param button the button
+	 * Creates the game elements.
 	 */
-	private void addMenuButton(RunnerButton button){
-		button.setLayoutX(MENU_BUTTONS_START_X);
-		button.setLayoutY(MENU_BUTTONS_START_Y + menuButtons.size() * 100);
-		menuButtons.add(button);
-		mainPane.getChildren().add(button);
+	protected void createGameElements(){
+		
+		slime1 = new ImageView();
+		slime1 = new ImageView(SLIME_IMAGE);
+		gamePane.getChildren().add(slime1);
+		slime1.setLayoutX(GAME_WIDTH+100);
+		slime1.setLayoutY(((GAME_HEIGHT /4) * 3) + 38);
+		
+		
+		slime2 = new ImageView();
+		slime2 = new ImageView(SLIME2_IMAGE);
+		gamePane.getChildren().add(slime2);
+		slime2.setLayoutX(GAME_WIDTH+2134);
+		slime2.setLayoutY(((GAME_HEIGHT /4) * 3) + 79);
+		
+	}	
+	
+	/**
+	 * Move game elements.
+	 */
+	protected void moveGameElements(){
+
+		slime1.setLayoutX(slime1.getLayoutX() - moveSpeed);
+		slime2.setLayoutX(slime2.getLayoutX() - moveSpeed);
+		
+	}
+	
+	/**
+	 * Check if obstacles past.
+	 */
+	protected void checkIfObstaclesPast(){
+	
+			if (slime1.getLayoutX() < -100){
+				setNewElementPosition(slime1);
+				score++;
+				createScoreLabel();
+		    	if (moveSpeed <= 20){
+		    		moveSpeed = (moveSpeed + 0.5);}		
+			
+		}	
+			if (slime2.getLayoutX() < -350){
+				setNewElementPosition(slime2);
+				score++;
+				createScoreLabel();	
+			
+		}	
+		
 	}
 
+    
+    /**
+     * Checks if is pressed.
+     *
+     * @param key the key
+     * @return true, if is pressed
+     */
+    protected boolean isPressed(KeyCode key) {
+        return keys.getOrDefault(key, false);
+    }
+	
 	/**
-	 * Creates the start button.
+	 * Jump player.
+	 *
+	 * @param value the value
 	 */
-	private void createStartButton(){
-		RunnerButton startButton = new RunnerButton("PLAY");
-		addMenuButton(startButton);
-		startButton.setOnAction(new EventHandler<ActionEvent>(){
+	protected void jumpPlayer(int value){  // credit to: https://github.com/almasB
+ 			boolean movingDown = value > 0;
+
+	        for (int i = 0; i < Math.abs(value); i++) {
+	            for (Node platform : platforms) {
+	                if (character.getBoundsInParent().intersects(platform.getBoundsInParent())) {
+	                    if (movingDown) {
+	                        if (character.getTranslateY() + 498 == platform.getTranslateY()) {
+	                            character.setTranslateY(character.getTranslateY() - 1);
+	                            canJump = true;
+	                            return;
+	                        }
+	                    }
+	                    else {
+	                        if (character.getTranslateY() == platform.getTranslateY() + 100) {
+	                            return;
+	                        }
+	                    }
+	                }
+	            }
+	            character.setTranslateY(character.getTranslateY() + (movingDown ? 1 : -1));
+	        }
+	    }
 			
-			@Override
-			public void handle(ActionEvent event){
-				showSubScene(characterChooserScene);
-			}
-		});
-	}
-	
-	/**
-	 * Creates the scores button.
-	 */
-	private void createScoresButton(){
-		RunnerButton scoresButton = new RunnerButton("SCORES");
-		addMenuButton(scoresButton);
-		
-		scoresButton.setOnAction(new EventHandler<ActionEvent>(){
 			
-			@Override
-			public void handle(ActionEvent event){
-				showSubScene(scoresSubScene);
-			}
-		});
-	}
-	
-	/**
-	 * Creates the credits button.
-	 */
-	private void createCreditsButton(){
-		RunnerButton creditsButton = new RunnerButton("CREDITS");
-		addMenuButton(creditsButton);
-		
-		creditsButton.setOnAction(new EventHandler<ActionEvent>(){
-			
-			@Override
-			public void handle(ActionEvent event){
-				showSubScene(creditsSubScene);
-			}
-		});
-		
-	}
-	
-	/**
-	 * Creates the help button.
-	 */
-	private void createHelpButton(){
-		RunnerButton helpButton = new RunnerButton("HELP");
-		addMenuButton(helpButton);
-		
-		helpButton.setOnAction(new EventHandler<ActionEvent>(){
-			
-			@Override
-			public void handle(ActionEvent event){
-				showSubScene(helpSubScene);
-			}
-		});
-	}
-	
-	/**
-	 * Creates the exit button.
-	 */
-	private void createExitButton(){
-		RunnerButton exitButton = new RunnerButton("EXIT");
-		addMenuButton(exitButton);
-		
-		exitButton.setOnAction(new EventHandler<ActionEvent>(){
-			
-			@Override
-			public void handle(ActionEvent event){
-				mainStage.close();
-			}
-		});
-	}
-	
-	/**
-	 * Creates the logo.
-	 */
-	private void createLogo(){
-		ImageView logo = new ImageView("view/resources/logo.png");
-		logo.setLayoutX(275);
-		logo.setLayoutY(50);
-		
-		logo.setOnMouseEntered(new EventHandler<MouseEvent>(){
-			@Override
-			public void handle(MouseEvent event) {
-				logo.setEffect(new DropShadow());		
-			}	
-		});
-		logo.setOnMouseExited(new EventHandler<MouseEvent>(){
-			@Override
-			public void handle(MouseEvent event) {
-				logo.setEffect(null);		
-			}	
-		});
-		mainPane.getChildren().add(logo);
-	}
-	
 	/**
 	 * Creates the background.
 	 */
-	private void createBackground(){
-		Image backgroundImage = new Image("view/resources/background.png", 256, 256, false, true);
-		BackgroundImage background = new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, null );
-		mainPane.setBackground(new Background(background));
+	protected void createBackground(){
+		gridPane1 = new GridPane();
+		gridPane2 = new GridPane();
+		gridPane3 = new GridPane();
+		
+		groundPane1 = new BorderPane();
+		groundPane2 = new BorderPane();
+		groundPane3 = new BorderPane();
+		groundPane4 = new BorderPane();		
+		groundPane5 = new BorderPane();
+		groundPane6 = new BorderPane();	
+		
+		Rectangle bg = new Rectangle(GAME_WIDTH, GAME_HEIGHT, Color.POWDERBLUE);
+		
+		
+		
+		for( int i=0; i <12; i++){
+			ImageView backgroundImage1 = new ImageView(BACKGROUND_IMAGE);
+			ImageView backgroundImage2 = new ImageView(BACKGROUND_IMAGE);
+			ImageView backgroundImage3 = new ImageView(BACKGROUND_IMAGE);
+			
+			GridPane.setConstraints(backgroundImage1, i % 3, i / 3);
+			GridPane.setConstraints(backgroundImage2, i % 3, i / 3);
+			GridPane.setConstraints(backgroundImage3, i % 3, i / 3);
+			
+			gridPane1.getChildren().add(backgroundImage1);
+			gridPane2.getChildren().add(backgroundImage2);
+			gridPane3.getChildren().add(backgroundImage3);
+			
+		}
+		gridPane1.setLayoutX(265*3);
+		gridPane2.setLayoutX(0);
+		gridPane3.setLayoutX(265*6);
+		
+		gamePane.getChildren().addAll(bg, gridPane1, gridPane2, gridPane3);
+		
+		
+		ImageView groundImage1 = new ImageView(GROUND_IMAGE);
+		ImageView groundImage2 = new ImageView(GROUND_IMAGE);
+		ImageView groundImage3 = new ImageView(GROUND_IMAGE);
+		ImageView groundImage4 = new ImageView(GROUND_IMAGE);
+		ImageView groundImage5 = new ImageView(GROUND_IMAGE);
+		ImageView groundImage6 = new ImageView(GROUND_IMAGE);
+		
+		groundPane1.setTop(groundImage1);
+		groundPane2.setTop(groundImage2);
+		groundPane3.setTop(groundImage3);
+		groundPane4.setTop(groundImage4);
+		groundPane5.setTop(groundImage5);
+		groundPane6.setTop(groundImage6);
+		
+	
+		groundPane4.setLayoutY(GAME_HEIGHT - 28);
+		groundPane4.setLayoutX(0);
+		groundPane5.setLayoutY(GAME_HEIGHT - 28);
+		groundPane5.setLayoutX(713);
+		groundPane6.setLayoutY(GAME_HEIGHT - 28);
+		groundPane6.setLayoutX(1426);
+		groundPane1.setLayoutY(GAME_HEIGHT - 28);
+		groundPane1.setLayoutX(0);
+		groundPane2.setLayoutY(GAME_HEIGHT - 28);
+		groundPane2.setLayoutX(713);
+		groundPane3.setLayoutY(GAME_HEIGHT - 28);
+		groundPane3.setLayoutX(1426);
+		
+		gamePane.getChildren().addAll(groundPane4, groundPane5, groundPane6,groundPane1, groundPane2, groundPane3);
+
 	}
 	
+	/**
+	 * Move background.
+	 */
+	protected void moveBackground(){
+		gridPane1.setLayoutX(gridPane1.getLayoutX() - (moveSpeed / 10));
+		gridPane2.setLayoutX(gridPane2.getLayoutX() - (moveSpeed / 10));
+		gridPane3.setLayoutX(gridPane3.getLayoutX() - (moveSpeed / 10));
+		
+		if(gridPane1.getLayoutX() <= (-265*3)){
+			gridPane1.setLayoutX((265*6)-10);
+		
+		}
+		if(gridPane2.getLayoutX() <= (-265*3)){
+			gridPane2.setLayoutX((265*6)-10);
+		
+		}
+		if(gridPane3.getLayoutX() <= (-265*3)){
+			gridPane3.setLayoutX((265*6)-10);
+		
+		}
+		
+	}
+	
+	/**
+	 * Move ground.
+	 */
+	protected void moveGround(){
+		groundPane1.setLayoutX(groundPane1.getLayoutX()-moveSpeed);
+		groundPane2.setLayoutX(groundPane2.getLayoutX()-moveSpeed);
+		groundPane3.setLayoutX(groundPane3.getLayoutX()-moveSpeed);
+		
+		if(groundPane1.getLayoutX() <= (-713)){
+			groundPane1.setLayoutX((705*2) - 48);
+		
+		}
+		if(groundPane2.getLayoutX() <= (-713)){
+			groundPane2.setLayoutX((705*2) - 48);
+		
+		}
+		if(groundPane3.getLayoutX() <= (-713)){
+			groundPane3.setLayoutX((705*2) - 48);
+		
+		}
+		
+	}
+	
+
+    /**
+     * Creates the platform.
+     *
+     * @return the node
+     */
+    protected Node createPlatform() { // the platform the character sits on 
+        Rectangle entity = new Rectangle(100, 100);
+        entity.setTranslateX(180);
+        entity.setTranslateY(511);
+        entity.setFill(Color.TRANSPARENT);
+        platforms.add(entity);
+        gamePane.getChildren().add(entity);
+        return entity;
+    }
 }
