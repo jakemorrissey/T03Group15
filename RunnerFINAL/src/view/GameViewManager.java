@@ -1,4 +1,6 @@
 package view;
+import sun.audio.*;
+import java.io.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -123,6 +129,7 @@ public class GameViewManager extends ViewManager {
 	/** The sprites. */
 	List<Image> sprites = new ArrayList<>();
 	
+	protected String userId;
 	
 	/** The Constant adventurer1. */
 	protected final static String adventurer1 = "view/resources/characters/adventurer_walk1.png";
@@ -190,7 +197,9 @@ public class GameViewManager extends ViewManager {
 
 	/** the high score. */
     private int highScore;
-	
+    File file = new File("MarioPiano.wav");
+    private Clip clip;
+   
 	
 	/**
 	 * Instantiates a new game view manager.
@@ -209,6 +218,7 @@ public class GameViewManager extends ViewManager {
         gameScene.setOnKeyReleased(event -> keys.put(event.getCode(), false));
 		gameStage = new Stage();
 		gameStage.setScene(gameScene);
+		
 		
 	}
 	
@@ -235,6 +245,8 @@ public class GameViewManager extends ViewManager {
 		gameStage.show();
 		backgroundMusic();
 		
+		
+		
 	}
 	
 	/**
@@ -260,13 +272,30 @@ public class GameViewManager extends ViewManager {
         }
     }
 	
+    
+    
+    public void backgroundMusic() {
+    	try {
+ 		   
+ 		   this.clip = AudioSystem.getClip();
+ 		   this.clip.open(AudioSystem.getAudioInputStream(this.file));
+ 		   this.clip.start();
+ 		   
+ 		  } catch (Exception e) {
+ 		   System.err.println(e.getMessage());
+ 		  }
+ 		 }
+    
+    
 	/**
 	 * Creates the game loop.
 	 */
 	protected void createGameLoop(){
+	
 		gameTimer = new AnimationTimer() {
 			
 			@Override
+			
 			public void handle(long now) {
 				moveBackground();
 				moveGround();
@@ -274,25 +303,17 @@ public class GameViewManager extends ViewManager {
 				checkCollision();
 				checkIfObstaclesPast();
 		        update();
+		        
 				
 			}
+
 		};
 		
 		gameTimer.start();
 	}
 	
-	public void backgroundMusic() {
-    	try {
- 		   File file = new File("MarioPiano.wav");
- 		   Clip clip = AudioSystem.getClip();
- 		   clip.open(AudioSystem.getAudioInputStream(file));
- 		   clip.start();
-		} catch (Exception e) {
- 		   System.err.println(e.getMessage());
- 		  }
- 		 }
 	
-	
+
 	public void playJump() {  // jumping effect sound
 		  try {
 		   File file = new File("JumpSoundEffect.wav");
@@ -310,8 +331,8 @@ public class GameViewManager extends ViewManager {
      * Update.
      */
     protected void update() {
-        if (isPressed(KeyCode.W)) {
-	    playJump();		
+        if (isPressed(KeyCode.UP)) {
+        	playJump();
             movePlayerUp();
         }
 
@@ -387,6 +408,13 @@ public class GameViewManager extends ViewManager {
 		RunnerButton menuButton = new RunnerButton("MENU");
 		menuButton.setLayoutX(200);
 		menuButton.setLayoutY(300);
+		/**
+		usrNameTxt = new TextField();
+        usrNameTxt.setPromptText("Enter Your Name Here");
+        usrNameTxt.setLayoutX(145);
+        usrNameTxt.setLayoutY(220);
+        usrNameTxt.setPrefWidth(200);
+        usrNameTxt.setPrefHeight(60);*/
 		
 		InfoLabel gameOverLabel = new InfoLabel("GAME OVER");
 		gameOverLabel.setLayoutX(100);
@@ -396,17 +424,20 @@ public class GameViewManager extends ViewManager {
 		finalScoreLabel.setLayoutX(190);
 		finalScoreLabel.setLayoutY(120);
 		finalScoreLabel.setPrefWidth(700);
-		
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
+             /** if (usrNameTxt.getLength() > 0) {
+                    userId = usrNameTxt.getText();
+                }
+                 
                 try {
-                    writeHighScores(score);
+                    writeHighScores(userId, score);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                }
+                }*/
 				menuStage.show();
 				gameStage.close();
 
@@ -425,6 +456,7 @@ public class GameViewManager extends ViewManager {
    private void checkCollision(){
 	   
     	if ((character.getBoundsInParent().intersects(slime1.getBoundsInParent())) || character.getBoundsInParent().intersects(slime2.getBoundsInParent())) {
+    			clip.stop();
     			gameTimer.stop();
     			timeLine.pause();
     			createGameOverScene();
@@ -463,7 +495,7 @@ public class GameViewManager extends ViewManager {
 	/**
 	 * Creates the high score label.
 	 */
-	public void createHighScoreLabel(){
+	public void createHighScoreLabel(){ // not working yet
 		pointsLabel = new SmallInfoLabel("HIGH SCORE : " + Integer.toString(highScore));
 		pointsLabel.setLayoutX(100);
 		pointsLabel.setLayoutY(60);
@@ -473,8 +505,7 @@ public class GameViewManager extends ViewManager {
 	/**
 	 * Creates the main menu button.
 	 */
-	
-	public void createMainMenuButton(){
+	public void createMainMenuButton(){ // keyboard 
 		RunnerButton mainMenuButton = new RunnerButton("MENU");
 		mainMenuButton.setLayoutX(900);
 		mainMenuButton.setLayoutY(60);
@@ -495,22 +526,16 @@ public class GameViewManager extends ViewManager {
 		
 	}
 	
-	private void writeHighScores(int score) throws IOException {
-    	try{
-    		
-    	
+    private void writeHighScores(String userId, int score) throws IOException { // try to fix it 
         File scoreFolder = new File("Scores");
         File scoreTxt = new File (scoreFolder + "/" + "Score.txt");
-        PrintWriter writer = new PrintWriter(new FileOutputStream("/src/Scores/Score.txt", true));
-        if (score > 0) {
+        PrintWriter writer = new PrintWriter(new FileOutputStream("/Users/jakemorrissey/Documents/CPSC219/RunnerFINAL/src/Scores/Score.txt", true));
+        if (!(userId == "" || userId == null)) {
+            writer.append(score + "\n");
+        }else {
             writer.append(score + "\n");
         }
-        writer.close(); 
-    } catch (Exception e){
-    	e.printStackTrace();
-    	
-    }
-    
+        writer.close();  
      }
 	
 
@@ -582,8 +607,8 @@ public class GameViewManager extends ViewManager {
 	 *
 	 * @param value the value
 	 */
-	protected void jumpPlayer(int value){
-			boolean movingDown = value > 0;
+	protected void jumpPlayer(int value){  // credit to: https://github.com/almasB
+ 			boolean movingDown = value > 0;
 
 	        for (int i = 0; i < Math.abs(value); i++) {
 	            for (Node platform : platforms) {
@@ -731,7 +756,7 @@ public class GameViewManager extends ViewManager {
      *
      * @return the node
      */
-    protected Node createPlatform() {
+    protected Node createPlatform() { // the platform the character sits on 
         Rectangle entity = new Rectangle(100, 100);
         entity.setTranslateX(180);
         entity.setTranslateY(511);
