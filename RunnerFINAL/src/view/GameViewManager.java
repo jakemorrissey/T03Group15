@@ -1,5 +1,4 @@
 package view;
-import sun.audio.*;
 import java.io.*;
 
 import java.io.File;
@@ -200,7 +199,7 @@ public class GameViewManager extends ViewManager {
     
     
     
-    File file = new File("MarioPiano.wav");
+    File file = new File(saveDataPath, "MarioPiano.wav");
     private Clip clip;
    
 	
@@ -267,6 +266,7 @@ public class GameViewManager extends ViewManager {
      */
     protected void movePlayerUp() {
         if (canJump) {
+        	playJump();
             playerVelocity = playerVelocity.add(0, -30);
             canJump = false;
         }
@@ -313,7 +313,7 @@ public class GameViewManager extends ViewManager {
 
 	public void playJump() {  // jumping effect sound
 		  try {
-		   File file = new File("JumpSoundEffect.wav");
+		   File file = new File(saveDataPath,"JumpSoundEffect.wav");
 		   Clip clip = AudioSystem.getClip();
 		   clip.open(AudioSystem.getAudioInputStream(file));
 		   clip.start();
@@ -328,8 +328,7 @@ public class GameViewManager extends ViewManager {
      * Update.
      */
     protected void update() {
-        if (isPressed(KeyCode.UP) || isPressed(KeyCode.SPACE)) {
-        	playJump();
+        if (isPressed(KeyCode.UP) || isPressed(KeyCode.SPACE)) {  
             movePlayerUp();
         }
 
