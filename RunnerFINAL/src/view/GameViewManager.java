@@ -238,8 +238,6 @@ public class GameViewManager extends ViewManager {
 		animateCorrectSprite();
 		createScoreLabel();
 		createGameElements();
-        File scoreFolder = new File("Scores");
-        File scoreTxt = new File (scoreFolder + "/" + "Score.txt");
 		createPlatform();
 		createGameLoop();
 		createMainMenuButton();
@@ -305,10 +303,7 @@ public class GameViewManager extends ViewManager {
 				checkCollision();
 				checkIfObstaclesPast();
 		        update();
-		        
-				
 			}
-
 		};
 		
 		gameTimer.start();
@@ -410,13 +405,6 @@ public class GameViewManager extends ViewManager {
 		RunnerButton menuButton = new RunnerButton("MENU");
 		menuButton.setLayoutX(200);
 		menuButton.setLayoutY(300);
-		/**
-		usrNameTxt = new TextField();
-        usrNameTxt.setPromptText("Enter Your Name Here");
-        usrNameTxt.setLayoutX(145);
-        usrNameTxt.setLayoutY(220);
-        usrNameTxt.setPrefWidth(200);
-        usrNameTxt.setPrefHeight(60);*/
 		
 		InfoLabel gameOverLabel = new InfoLabel("GAME OVER");
 		gameOverLabel.setLayoutX(100);
@@ -431,21 +419,8 @@ public class GameViewManager extends ViewManager {
 
 			@Override
 			public void handle(ActionEvent event) {
-             /** if (usrNameTxt.getLength() > 0) {
-                    userId = usrNameTxt.getText();
-                }
-                 
-                try {
-                    writeHighScores(userId, score);
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }*/
 				menuStage.show();
 				gameStage.close();
-
-
-	
 				}	
 		});
 		gameOverSubScene.getPane().getChildren().addAll(menuButton, finalScoreLabel, gameOverLabel);
@@ -584,18 +559,6 @@ public class GameViewManager extends ViewManager {
 		gamePane.getChildren().add(mainMenuButton);
 		
 	}
-	
-    private void writeHighScores(String userId, int score) throws IOException { // try to fix it 
-        File scoreFolder = new File("Scores");
-        File scoreTxt = new File (scoreFolder + "/" + "Score.txt");
-        PrintWriter writer = new PrintWriter(new FileOutputStream("/Users/jakemorrissey/Documents/CPSC219/RunnerFINAL/src/Scores/Score.txt", true));
-        if (!(userId == "" || userId == null)) {
-            writer.append(score + "\n");
-        }else {
-            writer.append(score + "\n");
-        }
-        writer.close();  
-     }
 	
 
 	/**

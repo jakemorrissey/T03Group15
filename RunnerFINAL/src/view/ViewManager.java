@@ -4,9 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import javafx.scene.text.Font;
@@ -149,41 +147,6 @@ public class ViewManager {
 		subScene.moveSubScene();
 		sceneToHide = subScene;
 	}
-	
-
-	
-	/**
-	 * Creates the high score list.
-	 
-	private void createHighScoreList(){
-		BufferedReader b;
-
-        try {
-
-
-            b = new BufferedReader(new FileReader("/Users/jakemorrissey/Documents/CPSC219/RunnerFINAL/src/Scores/Score.txt"));
-            
-            String line = b.readLine();
-
-            while (line != null) {
-               lineInt = Integer.parseInt(line);
-               if (lineInt > score1){
-               score1 = lineInt;
-               b.readLine();
-               return;
-               }
-            }                    
-            
-        return;}
-         catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    
-	}
-	
-	
-	
 	
 	/**
 	 * Creates the sub scenes.
