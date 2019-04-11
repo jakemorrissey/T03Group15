@@ -282,6 +282,9 @@ public class GameViewManager extends ViewManager {
 	}
 	
 	public void play() {
+		try {
+		   File file = new File("JumpSoundEffect.wav");
+		   Clip clip = AudioSystem.getClip();
 	}
 	
 	
