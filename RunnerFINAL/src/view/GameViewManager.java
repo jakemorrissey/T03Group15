@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -240,7 +241,6 @@ public class GameViewManager extends ViewManager {
 		createGameElements();
 		createPlatform();
 		createGameLoop();
-		createMainMenuButton();
 		gameStage.setResizable(false);
 		gameStage.show();
 		backgroundMusic();
@@ -328,7 +328,7 @@ public class GameViewManager extends ViewManager {
      * Update.
      */
     protected void update() {
-        if (isPressed(KeyCode.UP) || isPressed(KeyCode.W)) {
+        if (isPressed(KeyCode.UP) || isPressed(KeyCode.SPACE)) {
         	playJump();
             movePlayerUp();
         }
@@ -453,11 +453,17 @@ public class GameViewManager extends ViewManager {
 	 * @param image the new new element position
 	 */
 	protected void setNewElementPosition(ImageView image){
+		
+		
 		if (image == slime1){
-			image.setLayoutX(GAME_WIDTH+200);
+			Random rand = new Random();
+			int n = rand.nextInt(100);
+			image.setLayoutX(GAME_WIDTH + 150 + n);
 			image.setLayoutY(((GAME_HEIGHT /4) * 3) + 38);}
 		if (image == slime2){
-			image.setLayoutX(GAME_WIDTH+340);
+			Random rand = new Random();
+			int n = rand.nextInt(100);
+			image.setLayoutX(GAME_WIDTH + 340 + n/3);
 			image.setLayoutY(((GAME_HEIGHT /4) * 3) + 79);}
 			
 	}
@@ -540,31 +546,6 @@ public class GameViewManager extends ViewManager {
 		}
 	}
 	
-	/**
-	 * Creates the main menu button.
-	 */
-	public void createMainMenuButton(){ // keyboard 
-		RunnerButton mainMenuButton = new RunnerButton("MENU");
-		mainMenuButton.setLayoutX(900);
-		mainMenuButton.setLayoutY(60);
-		
-		mainMenuButton.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				menuStage.show();
-				gameStage.close();
-
-
-	
-				}	
-		});
-		
-		gamePane.getChildren().add(mainMenuButton);
-		
-	}
-	
-
 	/**
 	 * Creates the game elements.
 	 */

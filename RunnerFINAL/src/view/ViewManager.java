@@ -50,7 +50,7 @@ public class ViewManager {
 	private Scene mainScene;
 	
 	/** The main stage. */
-	private Stage mainStage;
+	Stage mainStage;
 	
 	/** The line int. */
 	public int lineInt = 0;
@@ -267,7 +267,7 @@ public class ViewManager {
 		helpLabel.setLayoutX(110);
 		helpLabel.setLayoutY(25);
 		
-		Label howToPlay = new Label("Press â†‘ or W to jump over obstacles.");
+		Label howToPlay = new Label("Press UP or SPACE to jump over obstacles.");
 		Label howToPlay2 = new Label("Run for as long as possible to");
 		Label howToPlay3 = new Label("increase your score, and set new");
 		Label howToPlay4 = new Label("records");
