@@ -281,17 +281,17 @@ public class GameViewManager extends ViewManager {
 		gameTimer.start();
 	}
 	
-	public void play() {
-		try {
+	public void playJump() {  // jumping effect sound
+		  try {
 		   File file = new File("JumpSoundEffect.wav");
 		   Clip clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(file));
+		   clip.open(AudioSystem.getAudioInputStream(file));
 		   clip.start();
 		   
 		  } catch (Exception e) {
 		   System.err.println(e.getMessage());
 		  }
-	}
+		 }
 	
 	
     /**
@@ -299,6 +299,7 @@ public class GameViewManager extends ViewManager {
      */
     protected void update() {
         if (isPressed(KeyCode.W)) {
+	    playJump();		
             movePlayerUp();
         }
 
