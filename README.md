@@ -24,6 +24,9 @@ To install JavaFX, refer to this helpful tutorial via youtube.com/ProgrammingKno
 
 4) Import the correct files into each package as shown below.
 
+5) The game implements two sounds files:
+    a.) 
+
 **IF THERE IS ANY CONFUSION, REFER TO THE SETUP OF FOLDERS(PACKAGES) AND FILES OF THE SOURCE FOLDER FOUND IN THIS GITHUB**
 
   
