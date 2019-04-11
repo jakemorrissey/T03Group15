@@ -281,6 +281,8 @@ public class GameViewManager extends ViewManager {
 		gameTimer.start();
 	}
 	
+	public void play() {
+	}
 	
 	
     /**
