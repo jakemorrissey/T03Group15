@@ -233,7 +233,7 @@ public class GameViewManager extends ViewManager {
 		createMainMenuButton();
 		gameStage.setResizable(false);
 		gameStage.show();
-		
+		backgroundMusic();
 		
 	}
 	
