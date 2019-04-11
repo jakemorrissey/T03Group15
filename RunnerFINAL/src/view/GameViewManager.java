@@ -281,6 +281,14 @@ public class GameViewManager extends ViewManager {
 		gameTimer.start();
 	}
 	
+	public void backgroundMusic() {
+    	try {
+ 		   File file = new File("MarioPiano.wav");
+ 		   Clip clip = AudioSystem.getClip();
+ 		   clip.open(AudioSystem.getAudioInputStream(file));
+ 		   clip.start();
+	
+	
 	public void playJump() {  // jumping effect sound
 		  try {
 		   File file = new File("JumpSoundEffect.wav");
