@@ -161,7 +161,6 @@ public class GameViewManager extends ViewManager {
 	/** The main menu button. */
 	protected RunnerButton mainMenuButton;
 	
-	
 	/** The slime 1. */
 	protected ImageView slime1;
 	
@@ -197,6 +196,9 @@ public class GameViewManager extends ViewManager {
 
 	/** the high score. */
     private int highScore;
+    
+    
+    
     File file = new File("MarioPiano.wav");
     private Clip clip;
    
@@ -331,7 +333,7 @@ public class GameViewManager extends ViewManager {
      * Update.
      */
     protected void update() {
-        if (isPressed(KeyCode.UP)) {
+        if (isPressed(KeyCode.UP) || isPressed(KeyCode.W)) {
         	playJump();
             movePlayerUp();
         }
@@ -424,6 +426,7 @@ public class GameViewManager extends ViewManager {
 		finalScoreLabel.setLayoutX(190);
 		finalScoreLabel.setLayoutY(120);
 		finalScoreLabel.setPrefWidth(700);
+		setHighScore(fileName, 1);
 		menuButton.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -500,6 +503,62 @@ public class GameViewManager extends ViewManager {
 		pointsLabel.setLayoutX(100);
 		pointsLabel.setLayoutY(60);
 		gamePane.getChildren().add(pointsLabel);
+	}
+	
+	private void setHighScore(String name, int n) {
+		FileWriter output = null;
+		try {
+			File f = new File(saveDataPath, name);
+			output = new FileWriter(f);
+			BufferedWriter writer = new BufferedWriter(output);
+			
+			if (n == 1) {
+				if (score >= score1) {
+					writer.write("" + score);
+					writer.close();
+				}
+				else {
+					writer.write("" + score1);
+					writer.close();
+					setHighScore(fileName2, 2);
+				}
+			}
+			else if (n == 2) {
+				if (score >= score2) {
+					writer.write("" + score);
+					writer.close();
+				}
+				else {
+					writer.write("" + score2);
+					writer.close();
+					setHighScore(fileName3, 3);
+				}
+			}
+			else if (n == 3) {
+				if (score >= score3) {
+					writer.write("" + score);
+					writer.close();
+				}
+				else {
+					writer.write("" + score3);
+					writer.close();
+					setHighScore(fileName4, 4);
+				}
+			}
+			else if (n == 4) {
+				if (score >= score4) {
+					writer.write("" + score);
+					writer.close();
+				}
+				else {
+					writer.write("" + score4);
+					writer.close();
+				}
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

@@ -1,9 +1,13 @@
 package view;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import javafx.scene.text.Font;
 import javafx.scene.input.MouseEvent;
@@ -89,6 +93,13 @@ public class ViewManager {
 	
 	/** The score 5. */
 	int score5;
+	
+	protected String saveDataPath;
+	protected String fileName = "SaveData.txt";
+	protected String fileName2 = "SaveData2.txt";
+	protected String fileName3 = "SaveData3.txt";
+	protected String fileName4 = "SaveData4.txt";
+	
 			
 	/** The menu buttons. */
 	List<RunnerButton> menuButtons;
@@ -103,6 +114,17 @@ public class ViewManager {
 	 * Instantiates a new view manager.
 	 */
 	public ViewManager(){
+		try {
+			saveDataPath = ViewManager.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		loadHighScore(fileName, 1);
+		loadHighScore(fileName2, 2);
+		loadHighScore(fileName3, 3);
+		loadHighScore(fileName4, 4);
+		
 		menuButtons = new ArrayList<>();
 		mainPane = new AnchorPane();
 		mainScene = new Scene(mainPane,WIDTH,HEIGHT);
@@ -113,7 +135,6 @@ public class ViewManager {
 		createButtons();
 		createBackground();
 		createLogo();	
-		
 	}
 	
 	/**
@@ -182,7 +203,7 @@ public class ViewManager {
 	private void scoresHelpSubScene(){
 		scoresSubScene = new RunnerSubScene();
 		mainPane.getChildren().add(scoresSubScene);
-		
+	
 		InfoLabel scoresLabel = new InfoLabel("SCORES");
 		scoresLabel.setLayoutX(110);
 		scoresLabel.setLayoutY(25);
@@ -220,6 +241,58 @@ public class ViewManager {
 		
 	}
 	
+	private void createSaveData(String name) {
+		try {
+			File file = new File(saveDataPath, name);
+			
+			FileWriter output = new FileWriter(file);
+			BufferedWriter writer = new BufferedWriter(output);
+			writer.write("" + 0);
+			writer.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void loadHighScore(String name, int n) {
+		
+		try {
+			File f = new File(saveDataPath, name);
+			if (!f.isFile()) {
+				createSaveData(name);
+			}
+			
+			if (n == 1) {
+				BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+				score1 = Integer.parseInt(reader.readLine());
+				reader.close();
+			}
+			
+			else if (n == 2) {
+				BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+				score2 = Integer.parseInt(reader.readLine());
+				reader.close();
+				}
+			
+			else if (n == 3) {
+				BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+				score3 = Integer.parseInt(reader.readLine());
+				reader.close();
+				}
+			
+			else if (n == 4) {
+				BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+				score4 = Integer.parseInt(reader.readLine());
+				reader.close();
+				}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	/**
 	 * Creates the help sub scene.
 	 */
@@ -231,7 +304,7 @@ public class ViewManager {
 		helpLabel.setLayoutX(110);
 		helpLabel.setLayoutY(25);
 		
-		Label howToPlay = new Label("Press â†‘ to jump over obstacles.");
+		Label howToPlay = new Label("Press â†‘ or W to jump over obstacles.");
 		Label howToPlay2 = new Label("Run for as long as possible to");
 		Label howToPlay3 = new Label("increase your score, and set new");
 		Label howToPlay4 = new Label("records");
