@@ -25,7 +25,8 @@ To install JavaFX, refer to this helpful tutorial via youtube.com/ProgrammingKno
 4) Import the correct files into each package as shown below.
 
 5) The game implements two sounds files:
-    a.) 
+    a.) The first one is located in T03Group15/RunnerFINAL/src/view/ where it will be under the name "JumpSoundEffect.wav"
+    b.) Due to the restrictions of file size uploads on Github, the second sound file will not be available directly in this repository
 
 **IF THERE IS ANY CONFUSION, REFER TO THE SETUP OF FOLDERS(PACKAGES) AND FILES OF THE SOURCE FOLDER FOUND IN THIS GITHUB**
 
