@@ -24,7 +24,7 @@ To install JavaFX, refer to this helpful tutorial via youtube.com/ProgrammingKno
 
 4) Import the correct files into each package as shown below.
 
-5) The game implements two sound files, both of which will need to be in the eclipse workplace folder you are working on:
+5) The game implements two sound files, both are required to be in the eclipse workplace folder you are working on:
     a.) The first one is located in T03Group15/RunnerFINAL/src/view/ where it will be under the name "JumpSoundEffect.wav"
     b.) Due to the restrictions of file size uploads on Github, the second sound file will not be directly available in this repository. However, the sound file may be obtained from: https://www.youtube.com/watch?v=XDmczii5-R0 by using an online converter that returns a .wav file.
     
