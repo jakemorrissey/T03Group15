@@ -1,3 +1,9 @@
+/**
+ * Credit to "javacraving" user from Youtube for showing how 
+ * to set up scenes, looping obstacles and GameViewManager.
+ * Link:
+ * https://www.youtube.com/watch?v=6BKI26gxK2Q&list=PL4wcbt63yAbdtY-GOeuRjIePfUsukSJZ9&index=2
+ */
 package application;
 
 
